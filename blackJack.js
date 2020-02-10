@@ -1,5 +1,5 @@
 var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-var suits = ["clubs", "spades", "hearts", "diamonds"];
+var suits = ["suitClubs", "suitSpades", "suitHearts", "suitDiamonds"];
 var numValue;
 var deck;
 var playerCount;
@@ -48,12 +48,13 @@ function newDeal() {
     return deck;
 }
 function cHit() {
-    test = document.getElementById("hidden");
     console.log(test.classList);
     console.log(compScore);
     console.log(updateScore);
-    test.getClassList.remove("active");
+    // test.getClassList.remove("active");
     if (compScore < 17) {
+        var z = document.getElementById("comp");
+        z.classList.add("moveL");
         console.log(compScore);
         cCard3 = document.createElement("div");
         cCard3.innerText = deck[0]["Value"];
@@ -68,45 +69,105 @@ function cHit() {
             document.getElementById("banner").innerText = "Dealer Blackjack! \nPress DEAL to play again";
             rounds++;
             console.log("h");
+            var v = document.getElementById("hit");
+            v.classList.add("hide");
+            var u = document.getElementById("stay");
+            u.classList.add("hide");
+            var w = document.getElementById("deal");
+            w.classList.remove("hide");
         }
         else if (parseInt(document.getElementById("compCounter").innerText) > 21) {
             document.getElementById("banner").innerText = "Dealer Bust! \nPress DEAL to play again";
             rounds++;
             console.log("i");
+            var v = document.getElementById("hit");
+            v.classList.add("hide");
+            var u = document.getElementById("stay");
+            u.classList.add("hide");
+            var w = document.getElementById("deal");
+            w.classList.remove("hide");
         }
         else if (playerTotal === parseInt(document.getElementById("compCounter").innerText)) {
             document.getElementById("banner").innerText = "Push! \nPress DEAL to play again";
             rounds++;
             console.log("j");
+            var v = document.getElementById("hit");
+            v.classList.add("hide");
+            var u = document.getElementById("stay");
+            u.classList.add("hide");
+            var w = document.getElementById("deal");
+            w.classList.remove("hide");
         }
         cHit();
     }
     else {
+        document.getElementById("compCounter").innerText = updateScore.toString();
         var playerTotal_1 = parseInt(document.getElementById("playerCounter").innerText);
-        if (playerTotal_1 > updateScore) {
+        if (playerTotal_1 > updateScore && updateScore < 21) {
             document.getElementById("banner").innerText = "You Win! \nPress DEAL to play next hand";
             rounds++;
             console.log("d");
+            var v = document.getElementById("hit");
+            v.classList.add("hide");
+            var u = document.getElementById("stay");
+            u.classList.add("hide");
+            var w = document.getElementById("deal");
+            w.classList.remove("hide");
+        }
+        else if (updateScore > 21) {
+            document.getElementById("banner").innerText = "Dealer Bust! \nPress DEAL to play next hand";
+            rounds++;
+            console.log("l");
+            var v = document.getElementById("hit");
+            v.classList.add("hide");
+            var u = document.getElementById("stay");
+            u.classList.add("hide");
+            var w = document.getElementById("deal");
+            w.classList.remove("hide");
         }
         else if (playerTotal_1 < updateScore && updateScore < 21) {
-            document.getElementById("banner").innerText = "Dealer Wins";
+            document.getElementById("banner").innerText = "Dealer Wins \nPress DEAL to play next hand";
             rounds++;
             console.log("k");
+            var v = document.getElementById("hit");
+            v.classList.add("hide");
+            var u = document.getElementById("stay");
+            u.classList.add("hide");
+            var w = document.getElementById("deal");
+            w.classList.remove("hide");
         }
         else if (playerTotal_1 === 21) {
             document.getElementById("banner").innerText = "Blackjack! \nPress DEAL to play again";
             rounds++;
             console.log("e");
+            var v = document.getElementById("hit");
+            v.classList.add("hide");
+            var u = document.getElementById("stay");
+            u.classList.add("hide");
+            var w = document.getElementById("deal");
+            w.classList.remove("hide");
         }
         else if (playerTotal_1 === updateScore) {
             document.getElementById("banner").innerText = "Push! \nPress DEAL to play again";
             rounds++;
             console.log("f");
+            var v = document.getElementById("hit");
+            v.classList.add("hide");
+            var u = document.getElementById("stay");
+            u.classList.add("hide");
+            var w = document.getElementById("deal");
+            w.classList.remove("hide");
         }
         else if (updateScore === 21) {
             document.getElementById("banner").innerText = "Dealer Blackjack! \nPress DEAL to play again";
             rounds++;
             console.log("g");
+            var v = document.getElementById("hit");
+            v.classList.add("hide");
+            var u = document.getElementById("stay");
+            u.classList.add("hide");
+            var w = document.getElementById("deal");
+            w.classList.remove("hide");
         }
     }
 }
@@ -124,7 +185,18 @@ function restart() {
     }
 }
 document.getElementById("deal").addEventListener("click", function () {
-    // console.log(rounds);
+    var y = document.getElementById("player");
+    y.classList.remove("moveR");
+    var z = document.getElementById("playerCounter");
+    z.classList.remove("hide");
+    var x = document.getElementById("compCounter");
+    x.classList.remove("hide");
+    var v = document.getElementById("hit");
+    v.classList.remove("hide");
+    var u = document.getElementById("stay");
+    u.classList.remove("hide");
+    var w = document.getElementById("deal");
+    w.classList.add("hide");
     restart();
     deck = newDeal();
     console.log(deck);
@@ -141,6 +213,7 @@ document.getElementById("deal").addEventListener("click", function () {
     cCard1.classList.add(deck[0]["Suit"], "new");
     document.getElementById("comp").append(cCard1);
     cScore1 = deck[0]["numValue"];
+    document.getElementById("compCounter").innerText = deck[0]["numValue"];
     deck.splice(0, 1);
     pCard2 = document.createElement("div");
     pCard2.innerText = deck[0]["Value"];
@@ -148,15 +221,19 @@ document.getElementById("deal").addEventListener("click", function () {
     document.getElementById("player").append(pCard2);
     document.getElementById("playerCounter").innerText = pScore1 + deck[0]["numValue"];
     // console.log(pScore1 + deck[0]["numValue"]);
-    deck.splice(0, 1);
     if (parseInt(pScore1 + deck[0]["numValue"]) === 21) {
         document.getElementById("banner").innerText = "Blackjack! \nPress DEAL to play again";
         console.log("A");
+        w.classList.remove("hide");
+        v.classList.add("hide");
+        u.classList.add("hide");
     }
+    deck.splice(0, 1);
     cCard2 = document.createElement("div");
     cCard2.setAttribute("id", "hidden");
     cCard2.innerText = deck[0]["Value"];
-    cCard2.classList.add(deck[0]["Suit"], "new", "active");
+    cCard2.classList.add("new");
+    cCard2.classList.add("active");
     updateScore = cScore1 + deck[0]["numValue"];
     document.getElementById("comp").append(cCard2);
     deck.splice(0, 1);
@@ -164,6 +241,8 @@ document.getElementById("deal").addEventListener("click", function () {
 document.getElementById("hit").addEventListener("click", function () {
     userScore = parseInt(document.getElementById("playerCounter").innerText);
     // console.log(userScore);
+    var y = document.getElementById("player");
+    y.classList.add("moveR");
     document.getElementById("player");
     pCard3 = document.createElement("div");
     pCard3.innerText = deck[0]["Value"];
@@ -175,14 +254,29 @@ document.getElementById("hit").addEventListener("click", function () {
         document.getElementById("banner").innerText = "Bust! \nPress DEAL to play again";
         rounds++;
         console.log("b");
+        var v = document.getElementById("hit");
+        v.classList.add("hide");
+        var u = document.getElementById("stay");
+        u.classList.add("hide");
+        var w = document.getElementById("deal");
+        w.classList.remove("hide");
     }
     else if (parseInt(document.getElementById("playerCounter").innerText) === 21) {
         document.getElementById("banner").innerText = "Blackjack! \nPress DEAL to play again";
         rounds++;
         console.log("c");
+        var v = document.getElementById("hit");
+        v.classList.add("hide");
+        var u = document.getElementById("stay");
+        u.classList.add("hide");
+        var w = document.getElementById("deal");
+        w.classList.remove("hide");
     }
 });
 document.getElementById("stay").addEventListener("click", function () {
+    test = document.getElementById("hidden");
+    test.classList.add(deck[0]["Suit"]);
+    test.classList.remove("active");
     compScore = updateScore;
     cHit();
 });
